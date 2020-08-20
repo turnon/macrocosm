@@ -1,15 +1,15 @@
 lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "sight/version"
+require "macrocosm/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "sight"
-  spec.version       = Sight::VERSION
+  spec.name          = "macrocosm"
+  spec.version       = Macrocosm::VERSION
   spec.authors       = ["ken"]
   spec.email         = ["block24block@gmail.com"]
 
   spec.summary       = %q{iview & echarts-graph}
-  spec.homepage      = "https://github.com/turnon/sight"
+  spec.homepage      = "https://github.com/turnon/macrocosm"
   spec.license       = "MIT"
 
   spec.metadata["homepage_uri"] = spec.homepage

@@ -1,7 +1,7 @@
-require 'sight/version'
+require 'macrocosm/version'
 require 'json'
 
-class Sight
+class Macrocosm
 
   NoCategory = 'no-category'
 
@@ -29,7 +29,7 @@ class Sight
   end
 
   def to_s
-    tmpl = File.join(__dir__, 'sight', 'template.html')
+    tmpl = File.join(__dir__, 'macrocosm', 'template.html')
     File.read(tmpl).sub(/\/\/start-sub.*\/\/end-sub/m, to_json)
   end
 

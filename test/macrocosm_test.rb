@@ -1,8 +1,8 @@
 require "test_helper"
 
-class SightTest < Minitest::Test
+class MacrocosmTest < Minitest::Test
   def test_it_works
-    s = Sight.new
+    s = Macrocosm.new
 
     s.add_node('p1', 'E')
     s.add_node('p2', 'D')
@@ -20,7 +20,7 @@ class SightTest < Minitest::Test
     s.add_link('p6', 'p7')
     s.add_link('p5', 'p7')
 
-    path = File.join(Dir.tmpdir, 'test_sight.html')
+    path = File.join(Dir.tmpdir, 'test_macrocosm.html')
     File.open(path, 'w'){ |f| f.puts s.to_s }
   end
 end
