@@ -21,11 +21,14 @@ class Macrocosm
     }
   end
 
-  def add_link(source, target)
-    @links << {
+  def add_link(source, target, relation_in_list: nil, relation_in_graph: nil)
+    link = {
       source: source,
       target: target
     }
+    link[:relation_in_list] = relation_in_list if relation_in_list
+    link[:relation_in_graph] = relation_in_graph if relation_in_graph
+    @links << link
   end
 
   def to_s

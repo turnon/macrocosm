@@ -14,7 +14,7 @@ class MacrocosmTest < Minitest::Test
 
     s.add_link('p1', 'p2')
     s.add_link('p1', 'p3')
-    s.add_link('p2', 'p3')
+    s.add_link('p2', 'p3', relation_in_list: 'has_one', relation_in_graph: '1 -> 1')
     s.add_link('p4', 'p5')
     s.add_link('p5', 'p6')
     s.add_link('p6', 'p7')

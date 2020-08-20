@@ -108,7 +108,11 @@
     let source_checkboxes = {},
       target_checkboxes = [],
       child_renderer = (h, { data }) => {
-        return h('span', `${data.macro} ${data.title}`);
+        let text = data.relation_in_list ? `${data.relation_in_list} ${data.title}` : data.title
+        return h('span', text);
+      },
+      relation_in_graph_formatter = (params) => {
+        return params.data.relation_in_graph || "1"
       },
       add_to_checkboxs_tree = (link, i) => {
         if (!source_checkboxes[link.source]) {
@@ -124,7 +128,7 @@
         let child_checkbox = {
           link_idx: i,
           title: link.target,
-          macro: link.macro,
+          relation_in_list: link.relation_in_list,
           render: child_renderer,
           checked: false
         }
@@ -138,6 +142,11 @@
         opacity: 0.5,
         width: 1
       }
+
+      if (link.relation_in_graph) {
+        link.label = {show: true, formatter: relation_in_graph_formatter}
+      }
+
       add_to_checkboxs_tree(link, i)
     })
 
