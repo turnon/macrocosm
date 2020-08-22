@@ -23,4 +23,8 @@ class MacrocosmTest < Minitest::Test
     path = File.join(Dir.tmpdir, 'test_macrocosm.html')
     File.open(path, 'w'){ |f| f.puts s.to_s }
   end
+
+  def test_sub_count
+    assert_equal 2, Macrocosm::TemplateObj.positions.count
+  end
 end

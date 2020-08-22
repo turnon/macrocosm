@@ -1,15 +1,22 @@
 require 'macrocosm/version'
+require 'macrocosm/template'
 require 'json'
 
 class Macrocosm
 
   NoCategory = 'no-category'
 
-  def initialize
+  TemplateObj = Template.new
+
+  attr_reader :curveness
+
+  def initialize(curveness: 0)
     category_index = -1
     @categories = Hash.new{ |h, cate| h[cate] = (category_index += 1) }
     @nodes = []
     @links = []
+
+    @curveness = curveness
   end
 
   def add_node(name, category = nil)
@@ -32,8 +39,15 @@ class Macrocosm
   end
 
   def to_s
-    tmpl = File.join(__dir__, 'macrocosm', 'template.html')
-    File.read(tmpl).sub(/\/\/start-sub.*\/\/end-sub/m, to_json)
+    TemplateObj.render(binding)
+  end
+
+  def graph
+    JSON.pretty_generate({
+      nodes: @nodes,
+      links: @links,
+      categories: @categories.keys.map{ |name| {name: name} }
+    })
   end
 
   private
