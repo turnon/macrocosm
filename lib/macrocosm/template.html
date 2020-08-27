@@ -59,7 +59,8 @@
     </i-button>
 
     <div id="switch">
-      label&nbsp;<Checkbox v-model="opts.series[0].label.show"></Checkbox>
+      node-label&nbsp;<Checkbox v-model="opts.series[0].label.show"></Checkbox>&nbsp;&nbsp;
+      edge-label&nbsp;<Checkbox v-model="edge_label" @on-change="switch_edge_label"></Checkbox>
     </div>
   </div>
 
@@ -83,15 +84,19 @@
           "category": 2
         }],
         "links": [{
+          "relation_in_graph": "n1 ==> n2",
           "source": "n1",
           "target": "n2"
         }, {
+          "relation_in_graph": "n2 ==> n3",
           "source": "n2",
           "target": "n3"
         }, {
+          "relation_in_graph": "n3 ==> n1",
           "source": "n3",
           "target": "n1"
         }, {
+          "relation_in_graph": "n3 ==> n4",
           "source": "n3",
           "target": "n4"
         }],
@@ -112,7 +117,7 @@
         return h('span', text);
       },
       relation_in_graph_formatter = (params) => {
-        return params.data.relation_in_graph || "1"
+        return params.data.relation_in_graph || " "
       },
       add_to_checkboxs_tree = (link, i) => {
         if (!source_checkboxes[link.source]) {
@@ -138,13 +143,13 @@
 
     graph.links.forEach((link, i) => {
       link.idx = i
+      link.label = {
+        show: false,
+        formatter: relation_in_graph_formatter
+      }
       link.lineStyle = {
         opacity: 0.5,
         width: 1
-      }
-
-      if (link.relation_in_graph) {
-        link.label = {show: true, formatter: relation_in_graph_formatter}
       }
 
       add_to_checkboxs_tree(link, i)
@@ -224,6 +229,9 @@
       }]
     }
 
+    let checked_links = new Set(),
+      checked_nodes = new Set()
+
     Vue.component('v-chart', VueECharts)
     new Vue({
       el: '#app',
@@ -231,6 +239,7 @@
         keyword: "",
         filter: false,
         opts: opts,
+        edge_label: false,
         relations: relations
       },
       watch: {
@@ -239,9 +248,26 @@
         }
       },
       methods: {
+        switch_edge_label(){
+          if (checked_nodes.size === 0) {
+            graph.links.forEach((link, i) => {
+              link.label.show = this.edge_label
+            })
+            return
+          }
+
+          graph.links.forEach((link, i) => {
+            if (checked_links.has(i) && this.edge_label) {
+              link.label.show = true
+            } else {
+              link.label.show = false
+            }
+          })
+        },
+
         selectRelation(checkeds) {
-          let checked_links = new Set(),
-            checked_nodes = new Set()
+          checked_links = new Set()
+          checked_nodes = new Set()
 
           checkeds.forEach((c) => {
             if (c.link_idx !== undefined) {
@@ -250,6 +276,8 @@
             }
             checked_nodes.add(c.title)
           })
+
+          this.switch_edge_label()
 
           if (checked_nodes.size === 0) {
             graph.links.forEach((link) => {
