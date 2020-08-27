@@ -1,8 +1,6 @@
 # Macrocosm
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/macrocosm`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Graph = iView + Echarts
 
 ## Installation
 
@@ -22,7 +20,27 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+s = Macrocosm.new(curveness: 0.1)
+
+s.add_node('p1', 'category E')
+s.add_node('p2', 'category D')
+s.add_node('p3', 'category F')
+s.add_node('p4', 'category F')
+s.add_node('p5', 'category G')
+s.add_node('p6', 'category G')
+s.add_node('p7', 'category G')
+
+s.add_link('p1', 'p2')
+s.add_link('p1', 'p3')
+s.add_link('p2', 'p3', relation_in_list: 'has_one', relation_in_graph: '1 -> 1')
+s.add_link('p4', 'p5')
+s.add_link('p5', 'p6')
+s.add_link('p6', 'p7')
+s.add_link('p5', 'p7')
+
+File.open(path, 'w'){ |f| f.puts s.to_s }
+```
 
 ## Development
 
@@ -32,7 +50,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/macrocosm. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/turnon/macrocosm. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
@@ -40,4 +58,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the Macrocosm project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/macrocosm/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Macrocosm project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/turnon/macrocosm/blob/master/CODE_OF_CONDUCT.md).
