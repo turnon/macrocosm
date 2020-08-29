@@ -14,8 +14,8 @@
 
     #switch {
       position: fixed;
-      bottom: 4%;
-      right: 2%;
+      bottom: 30px;
+      right: 40px;
     }
 
     button.filter-switch {
@@ -60,7 +60,8 @@
 
     <div id="switch">
       node-label&nbsp;<Checkbox v-model="opts.series[0].label.show"></Checkbox>&nbsp;&nbsp;
-      edge-label&nbsp;<Checkbox v-model="edge_label" @on-change="switch_edge_label"></Checkbox>
+      edge-label&nbsp;<Checkbox v-model="edge_label" @on-change="switch_edge_label"></Checkbox>&nbsp;&nbsp;
+      categories&nbsp;<Checkbox v-model="opts.legend[0].show"></Checkbox>
     </div>
   </div>
 
@@ -187,10 +188,14 @@
       tooltip: {},
       legend: [{
         // selectedMode: 'single',
-        top: "3%",
-        right: "2%",
+        show: true,
+        type: 'scroll',
+        top: 0,
+        right: 0,
+        padding: [30, 40, 80, 30],
         orient: "vertical",
         align: "right",
+
         data: graph.categories.map(function (a) {
           return a.name;
         })
