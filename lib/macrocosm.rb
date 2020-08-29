@@ -6,8 +6,6 @@ class Macrocosm
 
   NoCategory = 'no-category'
 
-  TemplateObj = Template.new
-
   attr_reader :curveness
 
   def initialize(curveness: 0)
@@ -39,7 +37,10 @@ class Macrocosm
   end
 
   def to_s
-    TemplateObj.render(binding)
+    Template.new(
+      graph: graph,
+      curveness: curveness,
+    ).render
   end
 
   def graph

@@ -12,37 +12,49 @@ class Macrocosm
       end
 
       def regexp
-        @regexp ||= Regexp.new("\\/\\*.*?start-#{name}.*end-#{name}.*?\\*\\/", Regexp::MULTILINE)
+        @regexp ||= Regexp.new("\\/\\*.*?start-#{name}.*?\\*\\/(.*)\\/\\*.*?end-#{name}.*?\\*\\/", Regexp::MULTILINE)
       end
 
       def mark
         "<%= #{name} %>"
       end
-    end
 
-    attr_reader :raw
-
-    def initialize
-      @raw = File.read(File.join(__dir__, 'template.html'))
-    end
-
-    def positions
-      @positions ||= @raw.scan(/\/\*.*?start-.*?\*\//).map do |s|
-        name = s.match(/-(.+)\s+\*/)[1]
-        Position.new(name)
+      def default_value
+        @default_value ||= Raw.match(regexp)[1]
       end
     end
 
-    def erb
-      return @erb if @erb
-      file = positions.reduce(@raw) do |file, pos|
-        file.sub(pos.regexp, pos.mark)
+    Raw = File.read(File.join(__dir__, 'template.html'))
+
+    Positions = []
+
+    Raw.scan(/\/\*.*?start-.*?\*\//).each do |s|
+      name = s.match(/-(.+)\s+\*/)[1]
+      pos = Position.new(name)
+      Positions << pos
+
+      define_method(name) do
+        binding_values[name.to_sym] || pos.default_value
       end
-      @erb = ERB.new(file)
     end
 
-    def render(b)
-      erb.result(b)
+    Engine = ERB.new(Positions.reduce(Raw){ |file, pos| file.sub(pos.regexp, pos.mark) })
+
+    Css = '<style>' + File.read(File.join(__dir__, 'frontend', 'iview.4.3.2.css')) + '</style>'
+
+    Js = ['vue.2.6.12.min.js', 'iview.min.js', 'echarts.4.8.0.min.js', 'vue-echarts.4.0.2.min.js'].each_with_object([]) do |file, arr|
+      code = File.read(File.join(__dir__, 'frontend', file))
+      arr << '<script>' << code << '</script>'
+    end.join
+
+    attr_reader :binding_values
+
+    def initialize(binding_values)
+      @binding_values = {css: false, js: Js}.merge(binding_values)
+    end
+
+    def render
+      Engine.result(binding)
     end
   end
 

@@ -25,6 +25,6 @@ class MacrocosmTest < Minitest::Test
   end
 
   def test_sub_count
-    assert_equal 2, Macrocosm::TemplateObj.positions.count
+    assert_equal 4, Macrocosm::Template::Positions.count
   end
 end
