@@ -18,7 +18,7 @@ class Macrocosm
   end
 
   def add_node(name, category = nil)
-    category ||= NoCategory
+    category = (category || NoCategory).to_s
     idx = @categories[category]
     @nodes << {
       name: name,
