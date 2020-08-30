@@ -47,7 +47,7 @@ class Macrocosm
     JSON.pretty_generate({
       nodes: @nodes,
       links: @links,
-      categories: @categories.keys.map{ |name| {name: name} }
+      categories: @categories.keys.sort!.map{ |name| {name: name} }
     })
   end
 
