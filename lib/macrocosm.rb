@@ -16,11 +16,12 @@ class Macrocosm
       @last_curveness = Hash.new{ |h, k| h[k] = MaxCurveness.dup }
     end
 
-    def add_link(source, target, relation_in_list: nil, relation_in_graph: nil)
+    def add_link(source, target, relation_in_list: nil, relation_in_graph: nil, line_style: {})
       ends = [source, target].sort!.join
 
       link = {
         ends: ends,
+        lineStyle: line_style,
         source: source,
         target: target
       }
@@ -33,7 +34,7 @@ class Macrocosm
 
     def links
       @links.map do |link|
-        link[:lineStyle] = {curveness: calc_curveness(link)}
+        link[:lineStyle][:curveness] = calc_curveness(link)
         link.delete(:ends)
         link
       end
@@ -68,8 +69,14 @@ class Macrocosm
     }
   end
 
-  def add_link(source, target, relation_in_list: nil, relation_in_graph: nil)
-    @links.add_link(source, target, relation_in_list: relation_in_list, relation_in_graph: relation_in_graph)
+  def add_link(source, target, relation_in_list: nil, relation_in_graph: nil, line_style: {})
+    @links.add_link(
+      source,
+      target,
+      relation_in_list: relation_in_list,
+      relation_in_graph: relation_in_graph,
+      line_style: line_style
+    )
   end
 
   def to_s
