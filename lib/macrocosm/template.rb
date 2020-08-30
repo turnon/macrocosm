@@ -42,7 +42,7 @@ class Macrocosm
 
     Css = '<style>' + File.read(File.join(__dir__, 'frontend', 'iview.4.3.2.css')) + '</style>'
 
-    Js = ['vue.2.6.12.min.js', 'iview.min.js', 'echarts.4.8.0.min.js', 'vue-echarts.4.0.2.min.js'].each_with_object([]) do |file, arr|
+    Js = ['vue.2.6.12.min.js', 'iview.min.js', 'echarts.4.8.0.1.min.js', 'vue-echarts.4.0.2.min.js'].each_with_object([]) do |file, arr|
       code = File.read(File.join(__dir__, 'frontend', file))
       arr << '<script>' << code << '</script>'
     end.join
