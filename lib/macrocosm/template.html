@@ -157,10 +157,10 @@
         show: false,
         formatter: relation_in_graph_formatter
       }
-      link.lineStyle = {
+      Object.assign(link.lineStyle, {
         opacity: 0.5,
         width: 1
-      }
+      })
 
       add_to_checkboxs_tree(link, i)
     })
